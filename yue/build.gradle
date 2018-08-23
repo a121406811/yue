@@ -10,7 +10,7 @@ sourceCompatibility = 1.8
 
 repositories {
     //第三方仓库
-    maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     //maven中央仓库
     mavenCentral()
     jcenter()
@@ -36,9 +36,10 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-tomcat'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.4.RELEASE'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
-// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
-
+    // https://mvnrepository.com/artifact/commons-lang/commons-lang
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
     // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.8.RELEASE'
