@@ -1,5 +1,7 @@
 package com.lpan.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,10 +11,11 @@ import javax.persistence.Table;
 public class UserInfo {
 
     @Id
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String userId;
     private String password;
     private int tel;
-    private String wxID;
+    private String wxOpenID;
     private String wxNickName;
     // 微信头像
     private String wxPortrait;
@@ -49,12 +52,12 @@ public class UserInfo {
         this.tel = tel;
     }
 
-    public String getWxID() {
-        return wxID;
+    public String getWxOpenID() {
+        return wxOpenID;
     }
 
-    public void setWxID(String wxID) {
-        this.wxID = wxID;
+    public void setWxOpenID(String wxOpenID) {
+        this.wxOpenID = wxOpenID;
     }
 
     public String getWxNickName() {
@@ -118,6 +121,32 @@ public class UserInfo {
     }
 
     public void setTradeID(String tradeID) {
+        this.tradeID = tradeID;
+    }
+
+
+    public UserInfo() {
+    }
+
+    public UserInfo(String wxOpenID, String wxNickName, String wxPortrait, int sex) {
+        this.wxOpenID = wxOpenID;
+        this.wxNickName = wxNickName;
+        this.wxPortrait = wxPortrait;
+        this.sex = sex;
+    }
+
+    public UserInfo(String userId, String password, int tel, String wxOpenID, String wxNickName, String wxPortrait, String nickName, String portrait, String birthday, int sex, String personDescribe, String tradeID) {
+        this.userId = userId;
+        this.password = password;
+        this.tel = tel;
+        this.wxOpenID = wxOpenID;
+        this.wxNickName = wxNickName;
+        this.wxPortrait = wxPortrait;
+        this.nickName = nickName;
+        this.portrait = portrait;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.personDescribe = personDescribe;
         this.tradeID = tradeID;
     }
 }

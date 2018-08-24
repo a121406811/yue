@@ -1,5 +1,6 @@
 package com.lpan.service;
 
+import com.lpan.domain.UserInfo;
 import com.lpan.repository.UserRepository;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,12 @@ public class UserService {
 
         userLoginInfo.put(sessionId, map);
         return sessionId;
+    }
+
+    public void bindUserAndWx(String openId) {
+        UserInfo user = userRepository.getByWxOpenID(openId);
+        if (user == null) {
+            UserInfo userInfo = new UserInfo();
+        }
     }
 }
