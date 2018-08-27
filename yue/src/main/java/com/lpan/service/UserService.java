@@ -18,13 +18,12 @@ public class UserService {
 
     private static final String APPID = "wxb7af7dfdf8468680";
     private static final String APPSECRET = "cef5f771c9a87b2ef3fc4dafaf192ee7";
-    private static Map<String, Object> userLoginInfo = new HashMap<String, Object>();
-
 
     @Autowired
     private UserRepository userRepository;
 
-    public String login(String code) {
+    // 获取到微信小程序的openid和sessionkey
+    public Map<String,String> getOpenidAndSessionkey(String code) {
 
         RestTemplate rest = new RestTemplate();
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + APPID + "&secret=" + APPSECRET + "&js_code=" + code + "&grant_type=authorization_code";
@@ -32,21 +31,19 @@ public class UserService {
         String body = exchange.getBody();
         String[] obj = body.split("\"");
         Map<String, String> map = new HashMap<String, String>();
-        map.put(obj[1], obj[3]);
+        String openId = obj[3];
+        map.put(obj[1], openId);
         map.put(obj[5], obj[7]);
-        // 生成sessionID  返回给客户端，客户端通过sessionID可找到自己账号的openid和session_key
-        String randomNum = RandomStringUtils.random(16, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.,;'[]=-+_?><:!@#$%^&*()");
-        Date date = new Date();
-        String sessionId = randomNum + date.getTime();
 
-        userLoginInfo.put(sessionId, map);
-        return sessionId;
+        return map;
     }
 
+    // 如果用户是第一次登陆，创建用户，随机生成用户ID绑定微信号；如果不是第一次，则什么也不用做
     public void bindUserAndWx(String openId) {
         UserInfo user = userRepository.getByWxOpenID(openId);
         if (user == null) {
-            UserInfo userInfo = new UserInfo();
+            UserInfo userInfo = new UserInfo(openId);
+            userRepository.save(userInfo);
         }
     }
 }

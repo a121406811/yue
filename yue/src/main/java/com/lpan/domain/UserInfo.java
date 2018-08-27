@@ -128,6 +128,10 @@ public class UserInfo {
     public UserInfo() {
     }
 
+    public UserInfo(String wxOpenID) {
+        this.wxOpenID = wxOpenID;
+    }
+
     public UserInfo(String wxOpenID, String wxNickName, String wxPortrait, int sex) {
         this.wxOpenID = wxOpenID;
         this.wxNickName = wxNickName;
