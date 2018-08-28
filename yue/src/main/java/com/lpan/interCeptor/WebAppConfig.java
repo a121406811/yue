@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/needValidate/**");
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/user/**");
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/needValidate/**");
+//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/user/**");
     }
 }

@@ -14,16 +14,14 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-//        log.info("---------------------开始进入请求地址拦截----------------------------");
-        System.out.println("拦截器---------------------------");
-        Object sess = request.getAttribute("sessionId");
-        if (sess ==null){
-            return false;
-        }
-        String sessionId = sess.toString();
+
+        response.setCharacterEncoding("UTF-8");
+        // 前端应该已经验证过，sessionId是有值的
+        String sessionId = request.getParameter("sessionId").toString();
         HttpSession session = request.getSession();
         Object wxOpenidAndSessionkeyMap = session.getAttribute(sessionId);
-        if(wxOpenidAndSessionkeyMap == null){
+        if (wxOpenidAndSessionkeyMap == null) {
+            response.addHeader("result","Please login again");
             return false;
         }
         return true;

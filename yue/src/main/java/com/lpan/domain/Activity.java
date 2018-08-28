@@ -3,6 +3,9 @@ package com.lpan.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+/*
+活动表
+ */
 
 @Entity
 @Table(name = "activity")
