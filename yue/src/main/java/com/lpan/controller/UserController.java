@@ -38,7 +38,7 @@ public class UserController {
         session.setMaxInactiveInterval(1800);
 
         // 如果用户第一次登陆，则绑定用户与微信号
-        userService.bindUserAndWx(wxOpenidAndSessionkey.get("openId"));
+        userService.bindUserAndWx(wxOpenidAndSessionkey.get("openid"));
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("sessionId", sessionId);
