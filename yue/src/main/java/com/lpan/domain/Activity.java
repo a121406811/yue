@@ -1,8 +1,6 @@
 package com.lpan.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 /*
 活动表
  */
@@ -13,16 +11,23 @@ public class Activity {
 
     @Id
     private String id;
-    private String userId;
+    @OneToOne
+    @JoinColumn(name = "userId")
+    @Column(name = "userId")
+    private UserInfo userInfo;
     private String activityName;
     //类型ID
-    private String activityTypeId;
-    //地点ID
-    private String placeId;
+    @OneToOne
+    @JoinColumn(name = "id")
+    @Column(name = "activityTypeId")
+    private ActivityType activityTypeId;
+    //地点
+    private String place;
     //活动人数
     private String peopleNum;
     private String startTime;
     private String endTime;
+    // 活动持续时间
     private String activityTime;
     //是否需要门票
     private String isTicket;
@@ -39,12 +44,20 @@ public class Activity {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public ActivityType getActivityTypeId() {
+        return activityTypeId;
+    }
+
+    public void setActivityTypeId(ActivityType activityTypeId) {
+        this.activityTypeId = activityTypeId;
     }
 
     public String getActivityName() {
@@ -55,20 +68,13 @@ public class Activity {
         this.activityName = activityName;
     }
 
-    public String getActivityTypeId() {
-        return activityTypeId;
+
+    public String getPlace() {
+        return place;
     }
 
-    public void setActivityTypeId(String activityTypeId) {
-        this.activityTypeId = activityTypeId;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public String getPeopleNum() {
