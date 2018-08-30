@@ -6,21 +6,19 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "activity")
+@Table(name = "activityInfo")
 public class Activity {
 
     @Id
     private String id;
     @OneToOne
     @JoinColumn(name = "userId")
-    @Column(name = "userId")
     private UserInfo userInfo;
     private String activityName;
     //类型ID
     @OneToOne
-    @JoinColumn(name = "id")
-    @Column(name = "activityTypeId")
-    private ActivityType activityTypeId;
+    @JoinColumn(name = "activityTypeId")
+    private ActivityType activityType;
     //地点
     private String place;
     //活动人数
@@ -52,12 +50,12 @@ public class Activity {
         this.userInfo = userInfo;
     }
 
-    public ActivityType getActivityTypeId() {
-        return activityTypeId;
+    public ActivityType getActivityType() {
+        return activityType;
     }
 
-    public void setActivityTypeId(ActivityType activityTypeId) {
-        this.activityTypeId = activityTypeId;
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
     }
 
     public String getActivityName() {

@@ -23,6 +23,12 @@ public class ActivityController {
         return all;
     }
 
+    // 无条件分页查询首页展示信息
+    @RequestMapping("findHomePageMsg")
+    public List<Activity> findHomePageMsg(int page, int size){
+        return activityService.findHomePageMsg(page,size);
+    }
+
     @RequestMapping("test")
     public String test() {
         return "连接成功oooooook" + ":" + new Date();
