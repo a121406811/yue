@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ActivityService {
@@ -36,7 +37,10 @@ public class ActivityService {
             list.add(it.next());
         }
         return list;
+    }
 
+    public  List<Map<String,String>> test(){
+        return activityRepository.test();
     }
 
 }

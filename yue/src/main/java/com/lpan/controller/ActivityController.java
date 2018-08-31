@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/a")
+@RequestMapping("/activity")
 public class ActivityController {
 
     @Autowired
@@ -29,9 +29,14 @@ public class ActivityController {
         return activityService.findHomePageMsg(page,size);
     }
 
+    // 根据用户输入关键字查询活动
+//    public List<Activity> find
+
     @RequestMapping("test")
-    public String test() {
-        return "连接成功oooooook" + ":" + new Date();
+    public List<Map<String, String>> test() {
+//        return "连接成功oooooook" + ":" + new Date();
+        List<Map<String, String>> test = activityService.test();
+        return test;
     }
 
 
