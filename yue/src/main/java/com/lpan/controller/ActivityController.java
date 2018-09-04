@@ -3,6 +3,10 @@ package com.lpan.controller;
 import com.lpan.domain.Activity;
 import com.lpan.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,14 +27,29 @@ public class ActivityController {
         return all;
     }
 
-    // 无条件分页查询首页展示信息
-    @RequestMapping("findHomePageMsg")
-    public List<Activity> findHomePageMsg(int page, int size){
-        return activityService.findHomePageMsg(page,size);
+    // 项目详情
+    @RequestMapping("getById")
+    public Activity getById(String id) {
+        return activityService.getById(id);
     }
 
-    // 根据用户输入关键字查询活动
-//    public List<Activity> find
+    // 无条件分页查询首页展示信息
+    @RequestMapping("findHomePageMsg")
+    public Page<Activity> findHomePageMsg(int page, int size) {
+        return activityService.findHomePageMsg(page, size);
+    }
+
+    // 分页模糊查询，即搜索功能
+    @RequestMapping("search")
+    public Page<List<Map<String, String>>> search(String str, int page, int size) {
+        str = "%" + str + "%";
+        return activityService.search(str, page, size);
+    }
+
+    // 有选择条件（活动类型，地点，时间，费用）的搜索
+    public Page<List<Map<String, String>>> conditionSearch(String str, String activityTypeId, String place, String startTime, String ticketPrice, int sex, int age) {
+        return activityService.conditionSearch(str, activityTypeId, place, startTime, ticketPrice, sex, age);
+    }
 
     @RequestMapping("test")
     public List<Map<String, String>> test() {
