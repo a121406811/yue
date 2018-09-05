@@ -47,8 +47,9 @@ public class ActivityController {
     }
 
     // 有选择条件（活动类型，地点，时间，费用）的搜索
-    public Page<List<Map<String, String>>> conditionSearch(String str, String activityTypeId, String place, String startTime, String ticketPrice, int sex, int age) {
-        return activityService.conditionSearch(str, activityTypeId, place, startTime, ticketPrice, sex, age);
+    @RequestMapping("aaa")
+    public List<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge) {
+        return activityService.conditionSearch(str, activityTypeId, place, startTime, maxTicketPrice,minTicketPrice, sex, maxAge,minAge);
     }
 
     @RequestMapping("test")
