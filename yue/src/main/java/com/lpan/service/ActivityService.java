@@ -49,19 +49,15 @@ public class ActivityService {
         return activityRepository.search(pageable, str);
     }
 
-//    public Page<List<Map<String,String>>> conditionSearch(String str,String activityTypeId,String place,String startTime,String ticketPrice,int sex,int age){
-//
-//    }
+    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
 
-    public List<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge) {
-        List<Activity> resultList = null;
         Specification querySpecifi = new Specification<Activity>() {
             @Override
             public Predicate toPredicate(Root<Activity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
 
                 List<Predicate> predicates = new ArrayList<>();
                 if (null != activityTypeId && !"".equals(activityTypeId)) {
-//                    Join<Activity, ActivityType> joinTeacher = root.join("ActivityType", JoinType.LEFT);
+                    // 联表的字段条件查询
                     predicates.add(criteriaBuilder.equal(root.get("activityType").get("id"), activityTypeId));
                 }
                 if (null != place && !"".equals(place)) {
@@ -71,25 +67,24 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + startTime + "%"));
                 }
                 if (0 != maxTicketPrice) {
-                    predicates.add(criteriaBuilder.le(root.get("maxTicketPrice"), maxTicketPrice));// 小于等于
-                    predicates.add(criteriaBuilder.ge(root.get("minTicketPrice"), minTicketPrice));// 大于等于
+                    predicates.add(criteriaBuilder.le(root.get("ticketPrice"), maxTicketPrice));// 小于等于
+                    predicates.add(criteriaBuilder.ge(root.get("ticketPrice"), minTicketPrice));// 大于等于
                 }
                 if (maxTicketPrice == 0 && minTicketPrice != 0) {
-                    predicates.add(criteriaBuilder.ge(root.get("minTicketPrice"), minTicketPrice));
+                    predicates.add(criteriaBuilder.ge(root.get("ticketPrice"), minTicketPrice));
                 }
                 if (sex != 2) { // 不限性别
-                    predicates.add(criteriaBuilder.equal(root.get("sex"), sex));
+                    predicates.add(criteriaBuilder.equal(root.get("userInfo").get("sex"), sex));
                 }
                 if (0 != maxAge) {
-                    predicates.add(criteriaBuilder.le(root.get("maxAge"), maxAge));// 小于等于
-                    predicates.add(criteriaBuilder.ge(root.get("minAge"), minAge));// 大于等于
+                    predicates.add(criteriaBuilder.le(root.get("userInfo").get("age"), maxAge));// 小于等于
+                    predicates.add(criteriaBuilder.ge(root.get("userInfo").get("age"), minAge));// 大于等于
                 }
                 if (maxAge == 0 && minAge != 0) {
-                    predicates.add(criteriaBuilder.ge(root.get("minAge"), minAge));
+                    predicates.add(criteriaBuilder.ge(root.get("userInfo").get("age"), minAge));
                 }
                 if (str != null && !"".equals(str)) {
                     // 联表模糊查询
-//                    Join<Activity, ActivityType> joinTeacheracher = root.join("ActivityType", JoinType.LEFT);
                     predicates.add(criteriaBuilder.like(root.get("activityType").get("activityTypeName"), "%" + str + "%"));
 
                     predicates.add(criteriaBuilder.like(root.get("userInfo").get("nickName"), "%" + str + "%"));
@@ -100,11 +95,22 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.like(root.get("ticketPrice"), "%" + str + "%"));
                 }
 
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                // 这下面的五行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
+                // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
+                Predicate ps = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+                predicates.clear();
+
+                predicates.add(ps);
+                predicates.add(criteriaBuilder.isNotNull(root.get("id")));
+                ps = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+
+                return ps;
             }
         };
-        resultList = this.activityRepository.findAll(querySpecifi);
-        return resultList;
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Activity> result = activityRepository.findAll(querySpecifi, pageable);
+        return result;
     }
 
     public List<Map<String, String>> test() {

@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class UserInfo {
 
     @Id
-    @GeneratedValue(generator  = "myIdStrategy")
+    @GeneratedValue(generator = "myIdStrategy")
     @GenericGenerator(name = "myIdStrategy", strategy = "uuid")
     private String userId;
     private String password;
@@ -21,6 +21,7 @@ public class UserInfo {
     private String nickName;
     private String portrait;
     private String birthday;
+    private int age;
     private int sex;
     // 个性签名
     private String personDescribe;
@@ -117,6 +118,14 @@ public class UserInfo {
 
     public String getTradeID() {
         return tradeID;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public void setTradeID(String tradeID) {
