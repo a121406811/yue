@@ -15,9 +15,6 @@ public class UserInfo {
     private String password;
     private int tel;
     private String wxOpenID;
-    private String wxNickName;
-    // 微信头像
-    private String wxPortrait;
     private String nickName;
     private String portrait;
     private String birthday;
@@ -60,21 +57,6 @@ public class UserInfo {
         this.wxOpenID = wxOpenID;
     }
 
-    public String getWxNickName() {
-        return wxNickName;
-    }
-
-    public void setWxNickName(String wxNickName) {
-        this.wxNickName = wxNickName;
-    }
-
-    public String getWxPortrait() {
-        return wxPortrait;
-    }
-
-    public void setWxPortrait(String wxPortrait) {
-        this.wxPortrait = wxPortrait;
-    }
 
     public String getNickName() {
         return nickName;
@@ -142,8 +124,6 @@ public class UserInfo {
 
     public UserInfo(String wxOpenID, String wxNickName, String wxPortrait, int sex) {
         this.wxOpenID = wxOpenID;
-        this.wxNickName = wxNickName;
-        this.wxPortrait = wxPortrait;
         this.sex = sex;
     }
 
@@ -152,8 +132,6 @@ public class UserInfo {
         this.password = password;
         this.tel = tel;
         this.wxOpenID = wxOpenID;
-        this.wxNickName = wxNickName;
-        this.wxPortrait = wxPortrait;
         this.nickName = nickName;
         this.portrait = portrait;
         this.birthday = birthday;
