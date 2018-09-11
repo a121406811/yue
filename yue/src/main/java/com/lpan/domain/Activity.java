@@ -1,6 +1,10 @@
 package com.lpan.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 /*
 活动表
  */
@@ -10,6 +14,8 @@ import javax.persistence.*;
 public class Activity {
 
     @Id
+    @GeneratedValue(generator = "myIdStrategy")
+    @GenericGenerator(name = "myIdStrategy", strategy = "uuid")
     private String id;
     @OneToOne
     @JoinColumn(name = "userId")
@@ -23,16 +29,17 @@ public class Activity {
     private String place;
     //活动人数
     private String peopleNum;
-    private String startTime;
-    private String endTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date endTime;
     // 活动持续时间
     private String activityTime;
     //是否需要门票
     private String isTicket;
     private String ticketPrice;
     //活动详细信息
-    private String explain;
-
+    private String myExplain;
 
     public String getId() {
         return id;
@@ -50,14 +57,6 @@ public class Activity {
         this.userInfo = userInfo;
     }
 
-    public ActivityType getActivityType() {
-        return activityType;
-    }
-
-    public void setActivityType(ActivityType activityType) {
-        this.activityType = activityType;
-    }
-
     public String getActivityName() {
         return activityName;
     }
@@ -66,6 +65,13 @@ public class Activity {
         this.activityName = activityName;
     }
 
+    public ActivityType getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
+    }
 
     public String getPlace() {
         return place;
@@ -83,19 +89,19 @@ public class Activity {
         this.peopleNum = peopleNum;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -123,11 +129,11 @@ public class Activity {
         this.ticketPrice = ticketPrice;
     }
 
-    public String getExplain() {
-        return explain;
+    public String getMyExplain() {
+        return myExplain;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setMyExplain(String myExplain) {
+        this.myExplain = myExplain;
     }
 }

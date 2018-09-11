@@ -52,6 +52,15 @@ public class ActivityController {
         return activityService.conditionSearch(str, activityTypeId, place, startTime, maxTicketPrice, minTicketPrice, sex, maxAge, minAge, page, size);
     }
 
+    // 添加活动
+    @RequestMapping("saveActivity")
+    public boolean saveActivity(Activity activity) {
+        long i = activity.getEndTime().getTime() - activity.getStartTime().getTime();
+        long hour = i / (1000 * 60 * 60);
+        activity.setActivityTime(hour + "小时");
+        return activityService.saveActivity(activity);
+    }
+
     @RequestMapping("test")
     public List<Map<String, String>> test() {
 //        return "连接成功oooooook" + ":" + new Date();

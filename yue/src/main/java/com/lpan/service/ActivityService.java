@@ -117,4 +117,15 @@ public class ActivityService {
         return activityRepository.test();
     }
 
+    public boolean saveActivity(Activity activity) {
+        try {
+            activityRepository.save(activity);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+
 }
