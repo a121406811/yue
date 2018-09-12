@@ -1,9 +1,7 @@
 package com.lpan.service;
 
 import com.lpan.domain.ActivityWantGo;
-import com.lpan.domain.UserInfo;
 import com.lpan.repository.ActivityWantGoRepository;
-import com.lpan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,9 +15,6 @@ public class ActivityWantGoService {
 
     @Autowired
     private ActivityWantGoRepository activityWantGoRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     public boolean save(ActivityWantGo activityWantGo) {
         try {
@@ -35,10 +30,10 @@ public class ActivityWantGoService {
         return activityWantGoRepository.getCountByActivityId(activityId);
     }
 
-    public ActivityWantGo getUserInfoByActivityId(String activityId, int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
+    public Page<ActivityWantGo> getUserInfoByActivityId(String activityId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
 
-        ActivityWantGo result = activityWantGoRepository.findByActivityId(activityId);
+        Page<ActivityWantGo> result = activityWantGoRepository.findByActivityId(activityId,pageable);
 
 
         return result;

@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 /*
 活动表
  */
@@ -40,6 +41,17 @@ public class Activity {
     private String ticketPrice;
     //活动详细信息
     private String myExplain;
+
+
+//    @OneToMany(mappedBy = "activity.id")
+
+
+    //级联保存、更新、删除、刷新;延迟加载。当删除用户，会级联删除该用户的所有文章
+    //拥有mappedBy注解的实体类为关系被维护端
+    //mappedBy="author"中的author是Article中的author属性
+//    @OneToMany(mappedBy = "activityId",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+//    private List<ActivityWantGo> activityWantGos;
+
 
     public String getId() {
         return id;
@@ -136,4 +148,12 @@ public class Activity {
     public void setMyExplain(String myExplain) {
         this.myExplain = myExplain;
     }
+
+//    public List<ActivityWantGo> getActivityWantGos() {
+//        return activityWantGos;
+//    }
+//
+//    public void setActivityWantGos(List<ActivityWantGo> activityWantGos) {
+//        this.activityWantGos = activityWantGos;
+//    }
 }

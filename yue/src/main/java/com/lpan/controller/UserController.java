@@ -45,6 +45,7 @@ public class UserController {
         return map;
     }
 
+
     @RequestMapping("/needValidate/test")
     public String test(){
         String a = "interceptor";

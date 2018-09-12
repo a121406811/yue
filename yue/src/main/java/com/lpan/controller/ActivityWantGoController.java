@@ -29,7 +29,7 @@ public class ActivityWantGoController {
 
     // 查询活动想去人
     @RequestMapping("getUserInfoByActivityId")
-    public ActivityWantGo getUserInfoByActivityId(String activityId, int page, int size) {
+    public Page<ActivityWantGo> getUserInfoByActivityId(String activityId, int page, int size) {
         return activityWantGoService.getUserInfoByActivityId(activityId, page, size);
     }
 

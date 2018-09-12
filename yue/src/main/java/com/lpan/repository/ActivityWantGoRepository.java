@@ -15,5 +15,6 @@ public interface ActivityWantGoRepository extends JpaRepository<ActivityWantGo, 
 
 //    public List<String> getUserIdsByActivityId(String activityId, Pageable pageable);
 
-    public ActivityWantGo findByActivityId(String activityId);
+    @Query(value = "select a.* from activityWantGo a where activityId = ?1", nativeQuery = true)
+    public Page<ActivityWantGo> findByActivityId(String activityId, Pageable pageable);
 }

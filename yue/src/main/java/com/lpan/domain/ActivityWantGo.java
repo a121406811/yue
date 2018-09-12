@@ -14,14 +14,13 @@ public class ActivityWantGo {
     @GeneratedValue(generator = "myIdStrategy")
     @GenericGenerator(name = "myIdStrategy", strategy = "uuid")
     private String id;
+//    @OneToOne
+//    @JoinColumn(name = "activityId")
+    private String activityId;
     @OneToOne
-    @JoinColumn(name = "activityId")
-    private Activity activity;
-//    private UserInfo userInfo;
-    private String msg;
+    @JoinColumn(name = "userId")
+    private UserInfo userInfo;
 
-    @OneToMany(mappedBy = "userId")
-    private List<UserInfo> users;
 
     public String getId() {
         return id;
@@ -31,27 +30,19 @@ public class ActivityWantGo {
         this.id = id;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getActivityId() {
+        return activityId;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public List<UserInfo> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<UserInfo> users) {
-        this.users = users;
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 }

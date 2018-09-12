@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<UserInfo,String> {
 
     public UserInfo getByWxOpenID(String openId);
 
-    public Page<UserInfo> getUserByIds(List<String> ids, Pageable pageable);
+//    public Page<UserInfo> getUserByIds(List<String> ids, Pageable pageable);
 
 }
