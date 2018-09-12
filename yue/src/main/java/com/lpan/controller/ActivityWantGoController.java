@@ -1,7 +1,6 @@
 package com.lpan.controller;
 
 import com.lpan.domain.ActivityWantGo;
-import com.lpan.domain.UserInfo;
 import com.lpan.service.ActivityWantGoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

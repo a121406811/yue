@@ -8,8 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ActivityWantGoService {
 
@@ -32,10 +30,7 @@ public class ActivityWantGoService {
 
     public Page<ActivityWantGo> getUserInfoByActivityId(String activityId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-
         Page<ActivityWantGo> result = activityWantGoRepository.findByActivityId(activityId,pageable);
-
-
         return result;
     }
 
