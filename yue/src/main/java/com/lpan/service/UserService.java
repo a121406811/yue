@@ -23,7 +23,7 @@ public class UserService {
     private UserRepository userRepository;
 
     // 获取到微信小程序的openid和sessionkey
-    public Map<String,String> getOpenidAndSessionkey(String code) {
+    public Map<String, String> getOpenidAndSessionkey(String code) {
 
         RestTemplate rest = new RestTemplate();
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + APPID + "&secret=" + APPSECRET + "&js_code=" + code + "&grant_type=authorization_code";
@@ -45,6 +45,17 @@ public class UserService {
             UserInfo userInfo = new UserInfo(openId);
             userRepository.save(userInfo);
         }
+    }
+
+    // 更新个人信息
+    public boolean updateUserMsg(UserInfo userInfo) {
+        try {
+            userRepository.save(userInfo);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.lpan.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.lpan.domain.UserInfo;
 import com.lpan.service.UserService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,10 @@ public class UserController {
         return map;
     }
 
+    public boolean updateUserMsg(UserInfo userInfo){
+
+        return userService.updateUserMsg(userInfo);
+    }
 
     @RequestMapping("/needValidate/test")
     public String test(){
