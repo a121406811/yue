@@ -3,6 +3,7 @@ package com.lpan.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "userInfo")
@@ -17,7 +18,7 @@ public class UserInfo {
     private String wxOpenID;
     private String nickName;
     private String portrait;
-    private String birthday;
+    private Date birthday;
     private int age;
     private int sex;
     // 个性签名
@@ -74,11 +75,11 @@ public class UserInfo {
         this.portrait = portrait;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -125,18 +126,5 @@ public class UserInfo {
     public UserInfo(String wxOpenID, String wxNickName, String wxPortrait, int sex) {
         this.wxOpenID = wxOpenID;
         this.sex = sex;
-    }
-
-    public UserInfo(String userId, String password, int tel, String wxOpenID, String wxNickName, String wxPortrait, String nickName, String portrait, String birthday, int sex, String personDescribe, String tradeID) {
-        this.userId = userId;
-        this.password = password;
-        this.tel = tel;
-        this.wxOpenID = wxOpenID;
-        this.nickName = nickName;
-        this.portrait = portrait;
-        this.birthday = birthday;
-        this.sex = sex;
-        this.personDescribe = personDescribe;
-        this.tradeID = tradeID;
     }
 }

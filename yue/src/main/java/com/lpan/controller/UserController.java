@@ -3,6 +3,7 @@ package com.lpan.controller;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.lpan.domain.UserInfo;
 import com.lpan.service.UserService;
+import org.apache.commons.beanutils.converters.CharacterArrayConverter;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class UserController {
         // 以sessionID为key，openid与sessionkey为值存储到session中，并设置超时时间为半个小时
         Map<String, String> wxOpenidAndSessionkey = userService.getOpenidAndSessionkey(code);
         HttpSession session = request.getSession();
-        session.setAttribute(sessionId,wxOpenidAndSessionkey);
+        session.setAttribute(sessionId, wxOpenidAndSessionkey);
         session.setMaxInactiveInterval(1800);
 
         // 如果用户第一次登陆，则绑定用户与微信号
@@ -46,14 +49,22 @@ public class UserController {
         return map;
     }
 
-    public boolean updateUserMsg(UserInfo userInfo){
-
+    public boolean updateUserMsg(UserInfo userInfo) {
+        // 根据生日，设置年龄
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(userInfo.getBirthday());
+        int birthday = calendar.get(Calendar.YEAR);
+        calendar.setTime(new Date());
+        int day = calendar.get(Calendar.YEAR);
+        int age = day - birthday;
+        userInfo.setAge(age);
         return userService.updateUserMsg(userInfo);
     }
 
     @RequestMapping("/needValidate/test")
-    public String test(){
+    public String test() {
         String a = "interceptor";
-        return a ;
+        return a;
     }
+
 }
