@@ -1,7 +1,6 @@
 package com.lpan.service;
 
 import com.lpan.domain.Activity;
-import com.lpan.domain.ActivityType;
 import com.lpan.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

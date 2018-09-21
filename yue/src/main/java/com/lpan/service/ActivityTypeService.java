@@ -1,8 +1,6 @@
 package com.lpan.service;
 
-import com.lpan.domain.Activity;
 import com.lpan.domain.ActivityType;
-import com.lpan.repository.ActivityRepository;
 import com.lpan.repository.ActivityTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,14 +2,12 @@ package com.lpan.service;
 
 import com.lpan.domain.UserInfo;
 import com.lpan.repository.UserRepository;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,12 +36,25 @@ public class UserService {
         return map;
     }
 
-    // 如果用户是第一次登陆，创建用户，随机生成用户ID绑定微信号；如果不是第一次，则什么也不用做
-    public void bindUserAndWx(String openId) {
+    // 如果用户是第一次登陆，创建用户，随机生成用户ID绑定微信号；如果不是第一次，则对比微信昵称与头像,如果有改变，则更新
+    public void bindUserAndWx(String openId, Map<String, String> wxUserinfo) {
         UserInfo user = userRepository.getByWxOpenID(openId);
         if (user == null) {
-            UserInfo userInfo = new UserInfo(openId);
-            userRepository.save(userInfo);
+            user = new UserInfo(openId, wxUserinfo.get("nickName"), wxUserinfo.get("avatarUrl"), Integer.parseInt(wxUserinfo.get("gender")));
+            userRepository.save(user);
+        } else {
+            int state = 0;
+            if (!wxUserinfo.get("nickName").equals(user.getWxNickName())) {
+                user.setWxNickName(wxUserinfo.get("nickName"));
+                state++;
+            }
+            if (!wxUserinfo.get("avatarUrl").equals(user.getWxPortrait())) {
+                user.setWxPortrait(wxUserinfo.get("avatarUrl"));
+                state++;
+            }
+            if (state != 0) {
+                userRepository.save(user);
+            }
         }
     }
 

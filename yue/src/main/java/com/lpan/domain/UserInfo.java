@@ -16,6 +16,8 @@ public class UserInfo {
     private String password;
     private int tel;
     private String wxOpenID;
+    private String wxNickName;
+    private String wxPortrait;
     private String nickName;
     private String portrait;
     private Date birthday;
@@ -125,6 +127,26 @@ public class UserInfo {
 
     public UserInfo(String wxOpenID, String wxNickName, String wxPortrait, int sex) {
         this.wxOpenID = wxOpenID;
+        this.wxNickName = wxNickName;
+        this.wxPortrait = wxPortrait;
         this.sex = sex;
     }
+
+    public String getWxNickName() {
+        return wxNickName;
+    }
+
+    public void setWxNickName(String wxNickName) {
+        this.wxNickName = wxNickName;
+    }
+
+    public String getWxPortrait() {
+        return wxPortrait;
+    }
+
+    public void setWxPortrait(String wxPortrait) {
+        this.wxPortrait = wxPortrait;
+    }
+
+
 }
