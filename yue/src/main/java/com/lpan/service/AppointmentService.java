@@ -44,6 +44,18 @@ public class AppointmentService {
         return true;
     }
 
+    public boolean updateRevoke(int state, String id) {
+        try {
+            Appointment one = appointmentRepository.getOne(id);
+            one.setState(state);
+            appointmentRepository.save(one);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
 //    public static void main(String[] args) {
 //        System.out.println(test());
 //    }
