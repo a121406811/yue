@@ -19,6 +19,9 @@ public class UserInfo {
     private String wxNickName;
     private String wxPortrait;
     private String nickName;
+    private String trueName;
+    // 身份证号码
+    private String idCard;
     private String portrait;
     private Date birthday;
     private int age;
@@ -60,6 +63,21 @@ public class UserInfo {
         this.wxOpenID = wxOpenID;
     }
 
+    public String getTrueName() {
+        return trueName;
+    }
+
+    public void setTrueName(String trueName) {
+        this.trueName = trueName;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
 
     public String getNickName() {
         return nickName;

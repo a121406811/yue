@@ -1,7 +1,11 @@
 package com.lpan.domain;
 
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /*
@@ -12,6 +16,9 @@ import javax.persistence.Table;
 @Table(name = "appointment_inviter")
 public class AppointmentInviter {
 
+    @Id
+    @GeneratedValue(generator = "my")
+    @GenericGenerator(name = "my", strategy = "uuid")
     private String id;
     private String appointmentId;
     // 被邀请人ID

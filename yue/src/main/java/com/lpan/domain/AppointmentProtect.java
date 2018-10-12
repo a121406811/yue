@@ -16,14 +16,14 @@ public class AppointmentProtect {
     @GeneratedValue(generator = "my")
     @GenericGenerator(strategy = "uuid", name = "my")
     private String id;
-    private String appointmentId;
+    private Appointment appointment;
     // 申请防护人
-    private String userId;
-    //防护截止时间
+    private UserInfo user;
+    // 防护截止时间
     private Date time;
     // 紧急联系人
-    private String urgentLinkmanId;
-    // 安全状态
+    private UserAndUrgentLinkman userAndUrgentLinkman;
+    // 安全状态   0 被保护期间  1解除保护  2时间到未发送短信紧急联系人  3时间到已通知紧急联系人
     private int state;
     // 约会对象名字
     private String appointmentName;
@@ -40,20 +40,20 @@ public class AppointmentProtect {
         this.id = id;
     }
 
-    public String getAppointmentId() {
-        return appointmentId;
+    public Appointment getAppointment() {
+        return appointment;
     }
 
-    public void setAppointmentId(String appointmentId) {
-        this.appointmentId = appointmentId;
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
-    public String getUserId() {
-        return userId;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
 
     public Date getTime() {
@@ -64,12 +64,12 @@ public class AppointmentProtect {
         this.time = time;
     }
 
-    public String getUrgentLinkmanId() {
-        return urgentLinkmanId;
+    public UserAndUrgentLinkman getUserAndUrgentLinkman() {
+        return userAndUrgentLinkman;
     }
 
-    public void setUrgentLinkmanId(String urgentLinkmanId) {
-        this.urgentLinkmanId = urgentLinkmanId;
+    public void setUserAndUrgentLinkman(UserAndUrgentLinkman userAndUrgentLinkman) {
+        this.userAndUrgentLinkman = userAndUrgentLinkman;
     }
 
     public int getState() {

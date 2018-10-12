@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional(rollbackFor = Exception.class)// 指在遇到Exception时就会回滚，而如果不标注rollbackOn，只会在抛RuntimeException时回滚。
@@ -56,10 +54,10 @@ public class AppointmentService {
         return true;
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(test());
-//    }
-//
+
+    public static void main(String[] args) {
+
+    }
 //    public static boolean test() {
 //        try {
 //            int i = 1 / 0;
@@ -71,3 +69,4 @@ public class AppointmentService {
 //        return true;
 //    }
 }
+
