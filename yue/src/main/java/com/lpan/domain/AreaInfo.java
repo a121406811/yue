@@ -12,7 +12,7 @@ public class AreaInfo {
     private String areaPriId;
     @Column(name = "AREA_ID")
     private String areaId;
-    @Column(name = "AREA_PRRENT_ID")
+    @Column(name = "AREA_PARENT_ID")
     private String areaPid;
     @Column(name = "AREA_TYPE")
     private String areaType;

@@ -51,7 +51,7 @@ public class AppointmentProtectService {
         for (AppointmentProtect a : list){
             a.setState(2);
         }
-        appointmentProtectRepository.saveAll(list);
+//        appointmentProtectRepository.saveAll(list);
     }
 
 

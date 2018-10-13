@@ -21,11 +21,4 @@ public class AppointmentProtectController {
         return appointmentProtectService.save(appointmentProtect);
     }
 
-    // 定时任务起到保护作用
-    public int protect() {
-
-        return 0;
-    }
-
-
 }

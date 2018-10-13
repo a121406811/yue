@@ -37,7 +37,7 @@ public class Activity {
     private String activityTime;
     //是否需要门票
     private String isTicket;
-    private String ticketPrice;
+    private double ticketPrice;
     //活动详细信息
     private String myExplain;
 
@@ -132,11 +132,11 @@ public class Activity {
         this.isTicket = isTicket;
     }
 
-    public String getTicketPrice() {
+    public double getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(String ticketPrice) {
+    public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
 

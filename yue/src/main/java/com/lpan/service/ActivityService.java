@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class ActivityService {
         return activityRepository.search(pageable, str);
     }
 
-    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
+    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, Date startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
 
         Specification querySpecifi = new Specification<Activity>() {
             @Override

@@ -2,10 +2,7 @@ package com.lpan.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -16,12 +13,18 @@ public class AppointmentProtect {
     @GeneratedValue(generator = "my")
     @GenericGenerator(strategy = "uuid", name = "my")
     private String id;
+    @OneToOne
+    @JoinColumn(name = "appointmentId")
     private Appointment appointment;
     // 申请防护人
+    @OneToOne
+    @JoinColumn(name = "userId")
     private UserInfo user;
     // 防护截止时间
     private Date time;
     // 紧急联系人
+    @OneToOne
+    @JoinColumn(name = "urgentLinkmanId")
     private UserAndUrgentLinkman userAndUrgentLinkman;
     // 安全状态   0 被保护期间  1解除保护  2时间到未发送短信紧急联系人  3时间到已通知紧急联系人
     private int state;
