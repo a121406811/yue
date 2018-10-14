@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,12 +48,22 @@ public class ActivityController {
 
     // 有选择条件（活动类型，地点，时间，费用）的搜索
     @RequestMapping("conditionSearch")
-    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, Date startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(startTime);
-        ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = formatter.parse(dateString, pos);
-        return activityService.conditionSearch(str, activityTypeId, place, currentTime_2, maxTicketPrice, minTicketPrice, sex, maxAge, minAge, page, size);
+    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        String dateString = formatter.format(startTime);
+//        ParsePosition pos = new ParsePosition(8);
+//        Date currentTime_2 = formatter.parse(dateString, pos);\
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = null;
+        if (startTime != null && !"".equals(startTime)) {
+            try {
+                date = sdf.parse(startTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return activityService.conditionSearch(str, activityTypeId, place, date, maxTicketPrice, minTicketPrice, sex, maxAge, minAge, page, size);
     }
 
     // 添加活动
@@ -72,4 +83,7 @@ public class ActivityController {
     }
 
 
+    public static void main(String[] args) {
+        System.out.println(new Date());
+    }
 }

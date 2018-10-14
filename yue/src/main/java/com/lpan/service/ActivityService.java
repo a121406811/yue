@@ -63,7 +63,8 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.like(root.get("place"), "%" + place + "%"));
                 }
                 if (null != startTime && !"".equals(startTime)) {
-                    predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + startTime + "%"));
+//                    predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + startTime + "%"));
+                    predicates.add(criteriaBuilder.equal(root.get("startTime"), startTime));
                 }
                 if (0 != maxTicketPrice) {
                     predicates.add(criteriaBuilder.le(root.get("ticketPrice"), maxTicketPrice));// 小于等于
@@ -82,21 +83,24 @@ public class ActivityService {
                 if (maxAge == 0 && minAge != 0) {
                     predicates.add(criteriaBuilder.ge(root.get("userInfo").get("age"), minAge));
                 }
+
+
                 if (str != null && !"".equals(str)) {
                     // 联表模糊查询
                     predicates.add(criteriaBuilder.like(root.get("activityType").get("activityTypeName"), "%" + str + "%"));
 
                     predicates.add(criteriaBuilder.like(root.get("userInfo").get("nickName"), "%" + str + "%"));
-                    predicates.add(criteriaBuilder.like(root.get("explain"), "%" + str + "%"));
+                    predicates.add(criteriaBuilder.like(root.get("myExplain"), "%" + str + "%"));
                     predicates.add(criteriaBuilder.like(root.get("activityName"), "%" + str + "%"));
                     predicates.add(criteriaBuilder.like(root.get("place"), "%" + str + "%"));
-                    predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + str + "%"));
-                    predicates.add(criteriaBuilder.like(root.get("ticketPrice"), "%" + str + "%"));
+//                    predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + str + "%"));
+//                    predicates.add(criteriaBuilder.like(root.get("startTime"), str));
+//                    predicates.add(criteriaBuilder.like(root.<String>get("ticketPrice"), "%" + str + "%"));
                 }
 
                 // 这下面的五行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
                 // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
-                Predicate ps = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+                Predicate ps = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 predicates.clear();
 
                 predicates.add(ps);
