@@ -37,7 +37,7 @@ public class UserService {
     }
 
     // 如果用户是第一次登陆，创建用户，随机生成用户ID绑定微信号；如果不是第一次，则对比微信昵称与头像,如果有改变，则更新
-    public void bindUserAndWx(String openId, Map<String, String> wxUserinfo) {
+    public UserInfo bindUserAndWx(String openId, Map<String, String> wxUserinfo) {
         UserInfo user = userRepository.getByWxOpenID(openId);
         if (user == null) {
             user = new UserInfo(openId, wxUserinfo.get("nickName"), wxUserinfo.get("avatarUrl"), Integer.parseInt(wxUserinfo.get("gender")));
@@ -56,6 +56,7 @@ public class UserService {
                 userRepository.save(user);
             }
         }
+        return user;
     }
 
     // 更新个人信息
@@ -67,6 +68,12 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    // 根据openid获取用户信息
+    public UserInfo getUserInfoByWxOpenId(String wxOpenId){
+        UserInfo user = userRepository.getByWxOpenID(wxOpenId);
+        return user;
     }
 
 }

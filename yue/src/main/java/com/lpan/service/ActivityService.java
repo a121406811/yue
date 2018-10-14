@@ -72,7 +72,9 @@ public class ActivityService {
                 }
                 if (maxTicketPrice == 0 && minTicketPrice != 0) {
                     predicates.add(criteriaBuilder.ge(root.get("ticketPrice"), minTicketPrice));
+//                    predicates.add(criteriaBuilder.equal(root.get("isTicket"), 1));// 大于等于
                 }
+
                 if (sex != 2) { // 不限性别
                     predicates.add(criteriaBuilder.equal(root.get("userInfo").get("sex"), sex));
                 }
@@ -84,6 +86,10 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.ge(root.get("userInfo").get("age"), minAge));
                 }
 
+                // 将前面的这几个动态查询用and连接，后面的用or连接
+                Predicate ps1 = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                predicates.clear();
+                predicates.add(ps1);
 
                 if (str != null && !"".equals(str)) {
                     // 联表模糊查询
@@ -100,7 +106,7 @@ public class ActivityService {
 
                 // 这下面的五行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
                 // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
-                Predicate ps = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                Predicate ps = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
                 predicates.clear();
 
                 predicates.add(ps);

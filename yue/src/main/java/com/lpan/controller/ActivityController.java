@@ -49,12 +49,7 @@ public class ActivityController {
     // 有选择条件（活动类型，地点，时间，费用）的搜索
     @RequestMapping("conditionSearch")
     public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        String dateString = formatter.format(startTime);
-//        ParsePosition pos = new ParsePosition(8);
-//        Date currentTime_2 = formatter.parse(dateString, pos);\
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = null;
         if (startTime != null && !"".equals(startTime)) {
             try {
