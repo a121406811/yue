@@ -48,7 +48,7 @@ public class ActivityService {
         return activityRepository.search(pageable, str);
     }
 
-    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, Date startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
+    public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
 
         Specification querySpecifi = new Specification<Activity>() {
             @Override
@@ -63,8 +63,8 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.like(root.get("place"), "%" + place + "%"));
                 }
                 if (null != startTime && !"".equals(startTime)) {
-//                    predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + startTime + "%"));
-                    predicates.add(criteriaBuilder.equal(root.get("startTime"), startTime));
+                    // 动态模糊查询对时间格式需要处理！！！
+                    predicates.add(criteriaBuilder.like(root.get("startTime").as(String.class), "%" + startTime + "%"));
                 }
                 if (0 != maxTicketPrice) {
                     predicates.add(criteriaBuilder.le(root.get("ticketPrice"), maxTicketPrice));// 小于等于
@@ -72,7 +72,6 @@ public class ActivityService {
                 }
                 if (maxTicketPrice == 0 && minTicketPrice != 0) {
                     predicates.add(criteriaBuilder.ge(root.get("ticketPrice"), minTicketPrice));
-//                    predicates.add(criteriaBuilder.equal(root.get("isTicket"), 1));// 大于等于
                 }
 
                 if (sex != 2) { // 不限性别
@@ -87,9 +86,11 @@ public class ActivityService {
                 }
 
                 // 将前面的这几个动态查询用and连接，后面的用or连接
+                // 这下面的行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
+                // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
+                predicates.add(criteriaBuilder.isNotNull(root.get("id")));
                 Predicate ps1 = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 predicates.clear();
-                predicates.add(ps1);
 
                 if (str != null && !"".equals(str)) {
                     // 联表模糊查询
@@ -99,19 +100,21 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.like(root.get("myExplain"), "%" + str + "%"));
                     predicates.add(criteriaBuilder.like(root.get("activityName"), "%" + str + "%"));
                     predicates.add(criteriaBuilder.like(root.get("place"), "%" + str + "%"));
-//                    predicates.add(criteriaBuilder.like(root.get("startTime"), "%" + str + "%"));
-//                    predicates.add(criteriaBuilder.like(root.get("startTime"), str));
-//                    predicates.add(criteriaBuilder.like(root.<String>get("ticketPrice"), "%" + str + "%"));
+                    predicates.add(criteriaBuilder.like(root.get("startTime").as(String.class), "%" + str + "%"));
+                    predicates.add(criteriaBuilder.like(root.<String>get("ticketPrice").as(String.class), "%" + str + "%"));
                 }
 
-                // 这下面的五行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
+                // 这下面的行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
                 // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
-                Predicate ps = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+                predicates.add(criteriaBuilder.isNotNull(root.get("id")));
+                Predicate ps2 = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
                 predicates.clear();
 
-                predicates.add(ps);
-                predicates.add(criteriaBuilder.isNotNull(root.get("id")));
-                ps = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                predicates.add(ps1);
+                predicates.add(ps2);
+
+
+                Predicate ps = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 
                 return ps;
             }

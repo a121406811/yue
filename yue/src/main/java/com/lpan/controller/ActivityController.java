@@ -46,19 +46,23 @@ public class ActivityController {
         return activityService.search(str, page, size);
     }
 
-    // 有选择条件（活动类型，地点，时间，费用）的搜索
+    // 有选择条件（活动类型，地点，时间，费用）的搜索(此方法传入的startTime的格式为：yyyy/MM/dd(或者只有年或月)  搜索只能精确天数！)
     @RequestMapping("conditionSearch")
     public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        Date date = null;
-        if (startTime != null && !"".equals(startTime)) {
-            try {
-                date = sdf.parse(startTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return activityService.conditionSearch(str, activityTypeId, place, date, maxTicketPrice, minTicketPrice, sex, maxAge, minAge, page, size);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+//        Date date = null;
+//        String dateStr = null;
+//        if (startTime != null && !"".equals(startTime)) {
+//            try {
+//                date = sdf.parse(startTime);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
+//        }
+        // 数据库的date类型经过cast(startTime as char)转换后，变成 yyyy/MM/dd HH:mm:ss格式，所以这里要把格式进行转换
+        String dateStr = startTime.replace("/", "-");
+        return activityService.conditionSearch(str, activityTypeId, place, dateStr, maxTicketPrice, minTicketPrice, sex, maxAge, minAge, page, size);
     }
 
     // 添加活动
