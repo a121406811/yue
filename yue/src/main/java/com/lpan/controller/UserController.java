@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,12 +56,13 @@ public class UserController {
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("sessionId", sessionId);
-        map.put("userInfo",user);
+        map.put("userInfo", user);
         return map;
     }
 
     // 用户修改个人信息
-    public boolean updateUserMsg(UserInfo userInfo) {
+    @RequestMapping("save")
+    public boolean updateUserMsg(UserInfo userInfo, File file) throws IOException {
         // 根据生日，设置年龄
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(userInfo.getBirthday());
@@ -69,13 +71,22 @@ public class UserController {
         int day = calendar.get(Calendar.YEAR);
         int age = day - birthday;
         userInfo.setAge(age);
-        return userService.updateUserMsg(userInfo);
+
+        return userService.updateUserMsg(userInfo, file);
     }
 
     @RequestMapping("/needValidate/test")
     public String test() {
         String a = "interceptor";
         return a;
+    }
+
+    public static void main(String[] args) throws IOException {
+        File file = new File("src\\main\\resources\\static\\user1");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        System.out.println(file.getPath());
     }
 
 }

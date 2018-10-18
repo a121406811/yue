@@ -12,6 +12,6 @@ public interface AppointmentProtectRepository extends JpaRepository<AppointmentP
     public List<AppointmentProtect> findAllByState(int state);
 
     // 查询所有状态为被保护期间（state=0）而且时间已过需要发送短信联系紧急联系人的 约会保护
-    @Query(value = "select * from appointment_protect where SYSDATE()>=time and state = 0", nativeQuery = true)
+    @Query(value = "select * from appointment_protect where SYSDATE()>=endtime and state = 0", nativeQuery = true)
     public List<AppointmentProtect> findAllByStateAndTime();
 }

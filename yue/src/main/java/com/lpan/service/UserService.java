@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Transactional(rollbackFor = Exception.class)// 指在遇到Exception时就会回滚，而如果不标注rollbackOn，只会在抛RuntimeException时回滚。
 public class UserService {
 
     private static final String APPID = "wxb7af7dfdf8468680";
@@ -60,18 +64,41 @@ public class UserService {
     }
 
     // 更新个人信息
-    public boolean updateUserMsg(UserInfo userInfo) {
+    public boolean updateUserMsg(UserInfo userInfo, File file) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        File saveFile = null;
         try {
-            userRepository.save(userInfo);
-        } catch (Exception e) {
+            // 设置头像保存
+            is = new FileInputStream(file);
+            File saveFilepPath = new File("src\\main\\resources\\static\\" + userInfo.getUserId());
+            saveFile = new File("src\\main\\resources\\static\\" + userInfo.getUserId() + "\\por.jpg");
+            if (!saveFilepPath.exists()) {
+                saveFilepPath.mkdir();
+            }
+            if (saveFile.exists()) {
+                saveFile.delete();
+            }
+            os = new FileOutputStream(saveFile);
+            byte[] buff = new byte[1024 * 4];
+            for (int length = is.read(buff); length != -1; length = is.read(buff)) {
+                os.write(buff, 0, length);
+            }
+            os.flush();
+            is.close();
+            os.close();
+        } catch (IOException e) {
             System.out.println(e.getMessage());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }
+        userInfo.setPortrait(saveFile.getPath());
+        userRepository.save(userInfo);
         return true;
     }
 
     // 根据openid获取用户信息
-    public UserInfo getUserInfoByWxOpenId(String wxOpenId){
+    public UserInfo getUserInfoByWxOpenId(String wxOpenId) {
         UserInfo user = userRepository.getByWxOpenID(wxOpenId);
         return user;
     }

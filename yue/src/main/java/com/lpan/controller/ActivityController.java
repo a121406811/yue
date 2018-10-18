@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/activity")
@@ -49,17 +50,6 @@ public class ActivityController {
     // 有选择条件（活动类型，地点，时间，费用）的搜索(此方法传入的startTime的格式为：yyyy/MM/dd(或者只有年或月)  搜索只能精确天数！)
     @RequestMapping("conditionSearch")
     public Page<Activity> conditionSearch(String str, String activityTypeId, String place, String startTime, double maxTicketPrice, double minTicketPrice, int sex, int maxAge, int minAge, int page, int size) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-//        Date date = null;
-//        String dateStr = null;
-//        if (startTime != null && !"".equals(startTime)) {
-//            try {
-//                date = sdf.parse(startTime);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
-//        }
         // 数据库的date类型经过cast(startTime as char)转换后，变成 yyyy/MM/dd HH:mm:ss格式，所以这里要把格式进行转换
         String dateStr = startTime.replace("/", "-");
         return activityService.conditionSearch(str, activityTypeId, place, dateStr, maxTicketPrice, minTicketPrice, sex, maxAge, minAge, page, size);
@@ -71,6 +61,7 @@ public class ActivityController {
         long i = activity.getEndTime().getTime() - activity.getStartTime().getTime();
         long hour = i / (1000 * 60 * 60);
         activity.setActivityTime(hour + "小时");
+        activity.setId(UUID.randomUUID().toString());
         return activityService.saveActivity(activity);
     }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,11 +18,12 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     // 新增约会
-    public boolean save(Appointment appointment, List<String> userIds) {
-        return appointmentService.save(appointment, userIds);
+    @RequestMapping("save")
+    public boolean save(String userId, Date startTime, String place, String[] userIds) {
+        return appointmentService.save(userId, startTime, place, userIds);
     }
 
-    // 撤回约会,被邀请人回应约会都是改变约会的状态
+    // 改变约会的状态
     public boolean updateRevoke(int state, String id) {
         return appointmentService.updateRevoke(state, id);
     }

@@ -5,6 +5,8 @@ import com.lpan.repository.UserAndUrgentLinkmanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserAndUrgentLinkmanService {
 
@@ -12,6 +14,7 @@ public class UserAndUrgentLinkmanService {
     private UserAndUrgentLinkmanRepository userAndUrgentLinkmanRepository;
 
     public boolean save(UserAndUrgentLinkman userAndUrgentLinkman){
+        userAndUrgentLinkman.setId(UUID.randomUUID().toString());
         try {
             userAndUrgentLinkmanRepository.save(userAndUrgentLinkman);
         }catch (Exception e){

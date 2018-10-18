@@ -20,8 +20,12 @@ public class AppointmentProtect {
     @OneToOne
     @JoinColumn(name = "userId")
     private UserInfo user;
+    // 防护开始时间
+    private Date startTime;
     // 防护截止时间
-    private Date time;
+    private Date endTime;
+    // 申请保护时间
+    private Date applyTime;
     // 紧急联系人
     @OneToOne
     @JoinColumn(name = "urgentLinkmanId")
@@ -59,12 +63,20 @@ public class AppointmentProtect {
         this.user = user;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public UserAndUrgentLinkman getUserAndUrgentLinkman() {
@@ -105,5 +117,13 @@ public class AppointmentProtect {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/userCollectAwg")
 public class UserCollectAwgController {
@@ -17,6 +19,7 @@ public class UserCollectAwgController {
     // 新增
     @RequestMapping("save")
     public boolean save(UserCollectAwg userCollectAwg) {
+        userCollectAwg.setId(UUID.randomUUID().toString());
         return userCollectAwgService.save(userCollectAwg);
     }
 

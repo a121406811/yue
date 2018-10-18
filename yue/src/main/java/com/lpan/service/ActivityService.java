@@ -85,10 +85,10 @@ public class ActivityService {
                     predicates.add(criteriaBuilder.ge(root.get("userInfo").get("age"), minAge));
                 }
 
-                // 将前面的这几个动态查询用and连接，后面的用or连接
                 // 这下面的行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
                 // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
                 predicates.add(criteriaBuilder.isNotNull(root.get("id")));
+                // 将前面的这几个动态查询用and连接，这几个条件都要符合
                 Predicate ps1 = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 predicates.clear();
 
@@ -107,13 +107,14 @@ public class ActivityService {
                 // 这下面的行代码，是因为当predicates中没有东西，也就是无条件查询时，sql最后莫名其妙会多一个WHERE 0=1,然后肯定什么都查不到啊！
                 // 但是有条件的时候就不会出现这种问题，百度不到答案，只好自己在加一个相当于是废话的条件：activityId not null 加了这个，就不会出现where 0=1这样的事件了。。
                 predicates.add(criteriaBuilder.isNotNull(root.get("id")));
+                // 根据关键字查询用or连接
                 Predicate ps2 = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
                 predicates.clear();
 
                 predicates.add(ps1);
                 predicates.add(ps2);
 
-
+                // 上面两个大条件都需要满足，使用and连接
                 Predicate ps = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 
                 return ps;

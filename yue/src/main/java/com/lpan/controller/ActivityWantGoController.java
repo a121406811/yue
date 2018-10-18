@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/activityWantGo")
 public class ActivityWantGoController {
@@ -17,6 +19,7 @@ public class ActivityWantGoController {
     // 添加活动想去人
     @RequestMapping("save")
     public boolean save(ActivityWantGo activityWantGo) {
+        activityWantGo.setId(UUID.randomUUID().toString());
         return activityWantGoService.save(activityWantGo);
     }
 

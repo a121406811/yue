@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(rollbackFor = Exception.class)// 指在遇到Exception时就会回滚，而如果不标注rollbackOn，只会在抛RuntimeException时回滚。
@@ -20,6 +21,8 @@ public class AppointmentProtectService {
     private AppointmentProtectRepository appointmentProtectRepository;
 
     public boolean save(AppointmentProtect appointmentProtect) {
+        appointmentProtect.setId(UUID.randomUUID().toString());
+        appointmentProtect.setApplyTime(new Date());
         try {
             appointmentProtectRepository.save(appointmentProtect);
         } catch (Exception e) {
@@ -35,7 +38,7 @@ public class AppointmentProtectService {
         List<AppointmentProtect> all = appointmentProtectRepository.findAllByState(2);
         for (AppointmentProtect a : all) {
             // 发送信息
-            TransFormPortraitUtil.sendCode(a.getUserAndUrgentLinkman().getLinkmanTel(),a.getUser().getTrueName(),a.getAppointment().getPlace(),a.getTime(),a.getAppointmentTel(),a.getRemarks());
+            TransFormPortraitUtil.sendCode(a.getUserAndUrgentLinkman().getLinkmanTel(),a.getUser().getTrueName(),a.getAppointment().getPlace(),a.getEndTime(),a.getAppointmentTel(),a.getRemarks());
             a.setState(3);
         }
         // 更新状态
@@ -51,7 +54,7 @@ public class AppointmentProtectService {
         for (AppointmentProtect a : list){
             a.setState(2);
         }
-//        appointmentProtectRepository.saveAll(list);
+        appointmentProtectRepository.saveAll(list);
     }
 
 

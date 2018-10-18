@@ -2,6 +2,7 @@ package com.lpan.service;
 
 import com.lpan.domain.Appointment;
 import com.lpan.domain.AppointmentInviter;
+import com.lpan.domain.UserInfo;
 import com.lpan.repository.AppointmentInviterRepository;
 import com.lpan.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,18 @@ public class AppointmentService {
     @Autowired
     private AppointmentInviterRepository appointmentInviterRepository;
 
-    public boolean save(Appointment appointment, List<String> userIds) {
-        String uuid = UUID.randomUUID().toString();
-        appointment.setId(uuid);
+    public boolean save(String userId, Date startTime, String place, String[] userIds) {
+        String uuid = UUID. randomUUID().toString();
+        Appointment appointment = new Appointment(uuid, new UserInfo(userId), startTime, place, new Date(), 1);
         List<AppointmentInviter> list = new ArrayList<AppointmentInviter>();
-        for (String userId : userIds) {
-            AppointmentInviter appointmentInviter = new AppointmentInviter(UUID.randomUUID().toString(), uuid, userId);
+        for (String AIuserId : userIds) {
+            AppointmentInviter appointmentInviter = new AppointmentInviter(UUID.randomUUID().toString(), uuid, AIuserId);
             list.add(appointmentInviter);
         }
         try {
             appointmentRepository.save(appointment);
             appointmentInviterRepository.saveAll(list);
-            int i = 1 / 0;
+//            int i = 1 / 0;
         } catch (Exception e) {
 //            throw new RuntimeException("添加失败！");
 //             手动回滚，这样上层就无需去处理异常

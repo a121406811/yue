@@ -23,7 +23,7 @@ public class Appointment {
     private Date startTime;
     private String place;
     private Date makeTime;
-    private int state;
+    private int state;       // 1发出邀请，还未作出回应   2 撤回约会   3 已接受  4 不接受  5 已开始
 
     public String getId() {
         return id;
@@ -70,6 +70,15 @@ public class Appointment {
     }
 
     public void setState(int state) {
+        this.state = state;
+    }
+
+    public Appointment(String id, UserInfo userInfo, Date startTime, String place, Date makeTime, int state) {
+        this.id = id;
+        this.userInfo = userInfo;
+        this.startTime = startTime;
+        this.place = place;
+        this.makeTime = makeTime;
         this.state = state;
     }
 }
