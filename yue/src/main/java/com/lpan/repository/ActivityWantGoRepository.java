@@ -14,4 +14,7 @@ public interface ActivityWantGoRepository extends JpaRepository<ActivityWantGo, 
 
     @Query(value = "select a.* from activityWantGo a where activityId = ?1", nativeQuery = true)
     public Page<ActivityWantGo> findByActivityId(String activityId, Pageable pageable);
+
+    @Query(value = "select a.* from activityWantGo a where a.activityId = ?1 and a.userId=?2", nativeQuery = true)
+    public ActivityWantGo collExists(String activityId,String userId);
 }

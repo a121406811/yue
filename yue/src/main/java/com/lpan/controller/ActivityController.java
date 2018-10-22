@@ -72,6 +72,11 @@ public class ActivityController {
         return test;
     }
 
+    // 查看自己发布的活动
+    @RequestMapping("findMyActivity")
+    public List<Activity> findMyActivity(String userId) {
+        return activityService.findMyActivity(userId);
+    }
 
     public static void main(String[] args) {
         System.out.println(new Date());

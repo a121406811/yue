@@ -30,11 +30,18 @@ public class ActivityWantGoService {
 
     public Page<ActivityWantGo> getUserInfoByActivityId(String activityId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<ActivityWantGo> result = activityWantGoRepository.findByActivityId(activityId,pageable);
+        Page<ActivityWantGo> result = activityWantGoRepository.findByActivityId(activityId, pageable);
         return result;
     }
 
-
+    // 查询这个活动想去人是否已经存在
+    public boolean collExists(String activityId, String userId) {
+        ActivityWantGo activityWantGo = activityWantGoRepository.collExists(activityId, userId);
+        if (activityWantGo == null) {
+            return false;
+        }
+        return true;
+    }
 
 
 }

@@ -23,7 +23,7 @@ public class AppointmentService {
     private AppointmentInviterRepository appointmentInviterRepository;
 
     public boolean save(String userId, Date startTime, String place, String[] userIds) {
-        String uuid = UUID. randomUUID().toString();
+        String uuid = UUID.randomUUID().toString();
         Appointment appointment = new Appointment(uuid, new UserInfo(userId), startTime, place, new Date(), 1);
         List<AppointmentInviter> list = new ArrayList<AppointmentInviter>();
         for (String AIuserId : userIds) {
@@ -53,6 +53,14 @@ public class AppointmentService {
             return false;
         }
         return true;
+    }
+
+    public List<Appointment> findMyByUserId(String userId) {
+        return appointmentRepository.findMyByUserId(userId);
+    }
+
+    public List<Appointment> findMyInviter(String userId){
+        return appointmentRepository.findMyInviter(userId);
     }
 
 

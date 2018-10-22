@@ -38,4 +38,14 @@ public class UserCollectActivityService {
         }
         return true;
     }
+
+    // 查询这个收藏是否已经存在
+    public boolean collExists(String activityId, String userId) {
+        UserCollectActivity userCollectActivity = userCollectActivityRepository.collExists(activityId, userId);
+        if (userCollectActivity == null) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -18,9 +18,21 @@ public class ActivityWantGoController {
 
     // 添加活动想去人
     @RequestMapping("save")
-    public boolean save(ActivityWantGo activityWantGo) {
+    public String save(ActivityWantGo activityWantGo) {
         activityWantGo.setId(UUID.randomUUID().toString());
-        return activityWantGoService.save(activityWantGo);
+        boolean b = activityWantGoService.collExists(activityWantGo.getActivityId(), activityWantGo.getUserInfo().getUserId());
+        String result = null;
+        if (b == true) { // 该想去人已存在
+            return "exists";
+        } else {
+            boolean save = activityWantGoService.save(activityWantGo);
+            if (save == true) {
+                result = "save success";
+            } else {
+                result = "save fail";
+            }
+        }
+        return result;
     }
 
     // 查询该活动想去人数

@@ -73,6 +73,9 @@ public class Appointment {
         this.state = state;
     }
 
+    public Appointment() {
+    }
+
     public Appointment(String id, UserInfo userInfo, Date startTime, String place, Date makeTime, int state) {
         this.id = id;
         this.userInfo = userInfo;

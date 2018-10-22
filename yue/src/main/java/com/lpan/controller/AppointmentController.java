@@ -24,8 +24,21 @@ public class AppointmentController {
     }
 
     // 改变约会的状态
+    @RequestMapping("updateRevoke")
     public boolean updateRevoke(int state, String id) {
         return appointmentService.updateRevoke(state, id);
+    }
+
+    // 查询我发起的约会
+    @RequestMapping("findMyByUserId")
+    public List<Appointment> findMyByUserId(String userId) {
+        return appointmentService.findMyByUserId(userId);
+    }
+
+    // 查询我接收的约会
+    @RequestMapping("findMyInviter")
+    public List<Appointment> findMyInviter(String userId){
+        return appointmentService.findMyInviter(userId);
     }
 
     // 定时任务提醒参加约会

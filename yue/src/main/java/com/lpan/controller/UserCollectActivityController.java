@@ -18,9 +18,21 @@ public class UserCollectActivityController {
 
     // 新增用户收藏活动
     @RequestMapping("save")
-    public boolean save(UserCollectActivity userCollectActivity) {
+    public String save(UserCollectActivity userCollectActivity) {
         userCollectActivity.setId(UUID.randomUUID().toString());
-        return userCollectActivityService.save(userCollectActivity);
+        boolean b = userCollectActivityService.collExists(userCollectActivity.getActivity().getId(), userCollectActivity.getUserId());
+        String result = null;
+        if (b == true) { // 查询此收藏是否已存在
+            result = "exists";
+        } else {
+            boolean save = userCollectActivityService.save(userCollectActivity);
+            if (save = true) {
+                result = "save success";
+            } else {
+                result = "save fail";
+            }
+        }
+        return result;
     }
 
     // 获取用户收藏活动列表

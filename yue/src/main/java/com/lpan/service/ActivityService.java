@@ -140,5 +140,8 @@ public class ActivityService {
         return true;
     }
 
+    public List<Activity> findMyActivity(String userId){
+        return activityRepository.findMyActivity(userId);
+    }
 
 }

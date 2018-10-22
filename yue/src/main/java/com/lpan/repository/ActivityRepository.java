@@ -28,4 +28,6 @@ public interface ActivityRepository extends JpaRepository<Activity, String>, Jpa
     @Query(value = "SELECT * FROM (SELECT u.userId,u.nickName,u.portrait,a.id,a.activityName,a.activityTypeId,a.place,a.peopleNum,a.startTime,a.endTime,a.ticketPrice,a.`explain`,atype.activityTypeName FROM userinfo u,activityinfo a,activitytype atype WHERE u.userId=a.userId AND a.activityTypeId=atype.id) r WHERE CONCAT(IFNULL(nickName,''),IFNULL(`explain`,''),IFNULL(`activityName`,''),IFNULL(activityTypeName,''),IFNULL(place,''),IFNULL(startTime,''),IFNULL(ticketPrice,'')) LIKE ?1", nativeQuery = true)
     public Page<List<Map<String, String>>> search(Pageable pageable, String str);
 
+    @Query(value = "SELECT * from activityInfo where userId=?1", nativeQuery = true)
+    public List<Activity> findMyActivity(String userId);
 }
