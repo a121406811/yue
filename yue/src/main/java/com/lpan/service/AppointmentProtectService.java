@@ -2,6 +2,7 @@ package com.lpan.service;
 
 import com.lpan.domain.AppointmentProtect;
 import com.lpan.repository.AppointmentProtectRepository;
+import com.lpan.repository.UserAndUrgentLinkmanRepository;
 import com.lpan.util.TransFormPortraitUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,8 +21,16 @@ public class AppointmentProtectService {
     @Autowired
     private AppointmentProtectRepository appointmentProtectRepository;
 
+    @Autowired
+    private UserAndUrgentLinkmanService userAndUrgentLinkmanService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AppointmentService appointmentService;
+
     public boolean save(AppointmentProtect appointmentProtect) {
-        appointmentProtect.setId(UUID.randomUUID().toString());
         appointmentProtect.setApplyTime(new Date());
         try {
             appointmentProtectRepository.save(appointmentProtect);
@@ -38,7 +47,7 @@ public class AppointmentProtectService {
         List<AppointmentProtect> all = appointmentProtectRepository.findAllByState(2);
         for (AppointmentProtect a : all) {
             // 发送信息
-            TransFormPortraitUtil.sendCode(a.getUserAndUrgentLinkman().getLinkmanTel(), a.getUser().getWxNickName(), a.getAppointment().getPlace(), a.getEndTime(), a.getAppointmentTel(), a.getRemarks());
+            TransFormPortraitUtil.sendCode(userAndUrgentLinkmanService.getById(a.getUserAndUrgentLinkmanId()).getLinkmanTel(), userService.getOne(a.getUserId()).getWxNickName(), appointmentService.getOne(a.getAppointmentId()).getPlace(), a.getEndTime(), a.getAppointmentTel(), a.getRemarks());
             a.setState(3);
         }
         // 更新状态
@@ -57,5 +66,19 @@ public class AppointmentProtectService {
         appointmentProtectRepository.saveAll(list);
     }
 
+    public AppointmentProtect getByAppointmentId(String appointmentId) {
+        return appointmentProtectRepository.getByAppointmentId(appointmentId);
+    }
 
+
+    public boolean unprotect(String id) {
+        AppointmentProtect one = appointmentProtectRepository.getOne(id);
+        one.setState(1);
+        try {
+            appointmentProtectRepository.save(one);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

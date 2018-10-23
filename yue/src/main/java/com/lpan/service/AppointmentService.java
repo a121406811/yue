@@ -59,8 +59,12 @@ public class AppointmentService {
         return appointmentRepository.findMyByUserId(userId);
     }
 
-    public List<Appointment> findMyInviter(String userId){
+    public List<Appointment> findMyInviter(String userId) {
         return appointmentRepository.findMyInviter(userId);
+    }
+
+    public Appointment getOne(String id) {
+        return appointmentRepository.getOne(id);
     }
 
 

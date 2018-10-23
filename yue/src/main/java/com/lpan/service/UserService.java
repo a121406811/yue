@@ -1,5 +1,6 @@
 package com.lpan.service;
 
+import com.lpan.domain.UserAndUrgentLinkman;
 import com.lpan.domain.UserInfo;
 import com.lpan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,4 +104,7 @@ public class UserService {
         return user;
     }
 
+    public UserInfo getOne(String userId) {
+        return userRepository.getOne(userId);
+    }
 }
