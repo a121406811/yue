@@ -12,19 +12,19 @@ public class TransFormPortraitUtil {
 
     /**
      * @param urgentLinkmantel 紧急联系人电话
-     * @param trueName         发起求助的人的真实姓名
-     * @param place  约会地点
+     * @param wxNickName         发起求助的人的真实姓名
+     * @param place            约会地点
      * @param time             约会结束的时间
      * @param appointmentTel   约会人的电话
      * @param remarks          备注
      * @return
      * @throws Exception
      */
-    public static int sendCode(String urgentLinkmantel, String trueName, String place, Date time, String appointmentTel, String remarks) throws Exception {
+    public static int sendCode(String urgentLinkmantel, String wxNickName, String place, Date time, String appointmentTel, String remarks) throws Exception {
         HttpClient client = new HttpClient();
         PostMethod post = new PostMethod("http://gbk.api.smschinese.cn");
         post.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");//在头文件中设置转码
-        String msg = "您好，您的好友" + trueName + "去了" + place + "，并且把您设置为紧急联系人。" + trueName + "设置的约会时间已到，可是他还没有关闭保护，请您尽快联系他以确保安全！他的约会对象的手机号码是：" + appointmentTel + "。他给你的留言是：" + remarks;
+        String msg = "您好，您的好友" + wxNickName + "去了" + place + "，并且把您设置为紧急联系人。" + wxNickName + "设置的约会时间已到，可是他还没有关闭保护，请您尽快联系他以确保安全！他给你的留言是：" + remarks;
         System.out.println(msg);
         NameValuePair[] data = {new NameValuePair("Uid", "a121406811"), new NameValuePair("Key", "d41d8cd98f00b204e980"), new NameValuePair("smsMob", urgentLinkmantel), new NameValuePair("smsText", msg)};
         post.setRequestBody(data);

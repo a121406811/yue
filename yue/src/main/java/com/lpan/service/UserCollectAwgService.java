@@ -38,4 +38,13 @@ public class UserCollectAwgService {
         }
         return true;
     }
+
+    // 查询这个收藏是否已经存在
+    public boolean collExists(String awgId, String userId) {
+        UserCollectAwg userCollectActivity = userCollectAwgRepository.collExists(awgId, userId);
+        if (userCollectActivity == null) {
+            return false;
+        }
+        return true;
+    }
 }

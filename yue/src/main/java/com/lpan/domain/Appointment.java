@@ -17,9 +17,9 @@ public class Appointment {
     @GeneratedValue(generator = "my")
     @GenericGenerator(name = "my", strategy = "uuid")
     private String id;
-    @OneToOne
-    @JoinColumn(name = "userId")
-    private UserInfo userInfo;
+//    @OneToOne
+//    @JoinColumn(name = "userId")
+    private String userId;
     private Date startTime;
     private String place;
     private Date makeTime;
@@ -33,12 +33,12 @@ public class Appointment {
         this.id = id;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Date getStartTime() {
@@ -76,9 +76,9 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(String id, UserInfo userInfo, Date startTime, String place, Date makeTime, int state) {
+    public Appointment(String id, String userId, Date startTime, String place, Date makeTime, int state) {
         this.id = id;
-        this.userInfo = userInfo;
+        this.userId = userId;
         this.startTime = startTime;
         this.place = place;
         this.makeTime = makeTime;

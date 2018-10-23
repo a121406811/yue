@@ -18,9 +18,21 @@ public class UserCollectAwgController {
 
     // 新增
     @RequestMapping("save")
-    public boolean save(UserCollectAwg userCollectAwg) {
+    public String save(UserCollectAwg userCollectAwg) {
         userCollectAwg.setId(UUID.randomUUID().toString());
-        return userCollectAwgService.save(userCollectAwg);
+        boolean b = userCollectAwgService.collExists(userCollectAwg.getActivityWantGo().getId(), userCollectAwg.getUserId());
+        String result = null;
+        if (b == true) {
+            result = "exists";
+        } else {
+            boolean save = userCollectAwgService.save(userCollectAwg);
+            if (save == true) {
+                result = "save success";
+            } else {
+                result = "save fail";
+            }
+        }
+        return result;
     }
 
     // 根据用户ID查询收藏用户

@@ -38,7 +38,7 @@ public class AppointmentProtectService {
         List<AppointmentProtect> all = appointmentProtectRepository.findAllByState(2);
         for (AppointmentProtect a : all) {
             // 发送信息
-            TransFormPortraitUtil.sendCode(a.getUserAndUrgentLinkman().getLinkmanTel(),a.getUser().getTrueName(),a.getAppointment().getPlace(),a.getEndTime(),a.getAppointmentTel(),a.getRemarks());
+            TransFormPortraitUtil.sendCode(a.getUserAndUrgentLinkman().getLinkmanTel(), a.getUser().getWxNickName(), a.getAppointment().getPlace(), a.getEndTime(), a.getAppointmentTel(), a.getRemarks());
             a.setState(3);
         }
         // 更新状态
@@ -51,7 +51,7 @@ public class AppointmentProtectService {
         // 查询时间已到的对象
         List<AppointmentProtect> list = appointmentProtectRepository.findAllByStateAndTime();
         // 将这些对象的状态改为 时间到并且为提醒紧急联系人（state=2）
-        for (AppointmentProtect a : list){
+        for (AppointmentProtect a : list) {
             a.setState(2);
         }
         appointmentProtectRepository.saveAll(list);

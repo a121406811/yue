@@ -24,15 +24,15 @@ public class AppointmentService {
 
     public boolean save(String userId, Date startTime, String place, String[] userIds) {
         String uuid = UUID.randomUUID().toString();
-        Appointment appointment = new Appointment(uuid, new UserInfo(userId), startTime, place, new Date(), 1);
+        Appointment appointment = new Appointment(uuid, userId, startTime, place, new Date(), 1);
         List<AppointmentInviter> list = new ArrayList<AppointmentInviter>();
         for (String AIuserId : userIds) {
             AppointmentInviter appointmentInviter = new AppointmentInviter(UUID.randomUUID().toString(), uuid, AIuserId);
             list.add(appointmentInviter);
         }
         try {
-            appointmentRepository.save(appointment);
             appointmentInviterRepository.saveAll(list);
+            appointmentRepository.save(appointment);
 //            int i = 1 / 0;
         } catch (Exception e) {
 //            throw new RuntimeException("添加失败！");

@@ -42,6 +42,7 @@ public class UserCollectActivityController {
     }
 
     // 删除用户的收藏活动
+    @RequestMapping("deleteById")
     public boolean deleteById(String id) {
         return userCollectActivityService.deleteById(id);
     }

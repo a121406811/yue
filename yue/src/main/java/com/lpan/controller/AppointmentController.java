@@ -1,12 +1,13 @@
 package com.lpan.controller;
 
 import com.lpan.domain.Appointment;
-import com.lpan.domain.UserInfo;
 import com.lpan.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +20,10 @@ public class AppointmentController {
 
     // 新增约会
     @RequestMapping("save")
-    public boolean save(String userId, Date startTime, String place, String[] userIds) {
-        return appointmentService.save(userId, startTime, place, userIds);
+    public boolean save(String userId, String startTime, String place, String[] userIds) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = sdf.parse(startTime);
+        return appointmentService.save(userId, date, place, userIds);
     }
 
     // 改变约会的状态
@@ -37,7 +40,7 @@ public class AppointmentController {
 
     // 查询我接收的约会
     @RequestMapping("findMyInviter")
-    public List<Appointment> findMyInviter(String userId){
+    public List<Appointment> findMyInviter(String userId) {
         return appointmentService.findMyInviter(userId);
     }
 
